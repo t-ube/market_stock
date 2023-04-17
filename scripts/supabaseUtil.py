@@ -91,7 +91,8 @@ class batchEditor:
                 "master_id": master_id,
                 "date": item['date'],
                 "price": item['price'],
-                "stock": item['stock']
+                "stock": item['stock'],
+                "link": item['link']
             }
             items.append(batch_item)
         return items
