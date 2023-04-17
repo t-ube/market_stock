@@ -1,6 +1,7 @@
 import os
 import glob
 import pandas as pd
+import time
 import psycopg2
 from get_chrome_driver import GetChromeDriver
 from selenium import webdriver
@@ -61,6 +62,8 @@ for index, row in dfCards.iterrows():
     if row['master_id'] in updated_id_list:
         print('check:'+row['name'])
         dataDir = './data/'+row['master_id']
+
+        time.sleep(5)
         cardrushBot.download(wrapper, row['name'], row['cn'], dataDir)
 
         df = loader.getUniqueRecodes(dataDir)
