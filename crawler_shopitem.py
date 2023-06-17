@@ -66,7 +66,7 @@ for index, row in dfCards.iterrows():
         print('skip:'+row['name'])
         continue
 
-    if row['card_type'] =='ポケモン' and row['regulation'] in ['A','B','C','D']:
+    if row['expansion'] not in ['S12a','SV1S','SV1V','SV2D','SV2P','SV2a','SV1a']:
         print('skip:'+row['name'])
         continue
 
@@ -82,10 +82,6 @@ for index, row in dfCards.iterrows():
         print('skip:'+row['name'])
         continue
 
-    if row['expansion'] in ['S-P']:
-        print('skip:'+row['name'])
-        continue
-    
     dataDir = './data/'+row['master_id']
 
     time.sleep(5)
