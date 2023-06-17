@@ -59,25 +59,51 @@ for index, row in dfCards.iterrows():
     if pd.isnull(row['master_id']):
         print('skip:'+row['name'])
         continue
+
+    print('check:'+row['name'])
+    
     if row['master_id'] in updated_id_list:
-        print('check:'+row['name'])
-        dataDir = './data/'+row['master_id']
+        print('skip:'+row['name'])
+        continue
 
-        time.sleep(5)
-        cardrushBot.download(wrapper, row['name'], row['cn'], dataDir)
+    if row['card_type'] =='ポケモン' and row['regulation'] in ['A','B','C','D']:
+        print('skip:'+row['name'])
+        continue
 
-        df = loader.getUniqueRecodes(dataDir)
-        records = df.to_dict(orient='records')
-        items = editor.getShopStock(row['master_id'],records)
-        if len(items) > 0:
-            batch_items.extend(items)
-            batch_master_id.append(row['master_id'])
-            counter += 1
+    if row['card_type'] == 'エネルギー':
+        print('skip:'+row['name'])
+        continue
 
-        if len(batch_items) >= 10:
-            writer.write(supabase, "shop_card_stock", batch_items)
-            batch_items = []
-            batch_master_id = []
+    if row['is_mirror'] == 'True':
+        print('skip:'+row['name'])
+        continue
+
+    if row['card_type'] == 'ポケモン' and row['rarity'] in ['C']:
+        print('skip:'+row['name'])
+        continue
+
+    if row['expansion'] in ['S-P']:
+        print('skip:'+row['name'])
+        continue
+    
+    dataDir = './data/'+row['master_id']
+
+    time.sleep(5)
+    cardrushBot.download(wrapper, row['name'], row['cn'], dataDir)
+
+    df = loader.getUniqueRecodes(dataDir)
+    records = df.to_dict(orient='records')
+    items = editor.getShopStock(row['master_id'],records)
+
+    if len(items) > 0:
+        batch_items.extend(items)
+        batch_master_id.append(row['master_id'])
+        counter += 1
+
+    if len(batch_items) >= 10:
+        writer.write(supabase, "shop_card_stock", batch_items)
+        batch_items = []
+        batch_master_id = []
 
 # 残っていたらPOSTする
 if len(batch_items) > 0:
