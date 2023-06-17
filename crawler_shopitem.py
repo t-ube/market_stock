@@ -66,7 +66,7 @@ for index, row in dfCards.iterrows():
         print('skip:'+row['name'])
         continue
 
-    if row['expansion'] not in ['S12a','SV1S','SV1V','SV2D','SV2P','SV2a','SV1a']:
+    if row['expansion'] not in ['SV2D','SV2P','SV2a']:
         print('skip:'+row['name'])
         continue
 
